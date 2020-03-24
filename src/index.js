@@ -11,6 +11,21 @@ const client = new ApolloClient({
   uri: 'http://localhost:4000',
 })
 
+// If necessary, we can execute queries / mutations directly on the client
+// client
+//   .query({
+//     query: gql`
+//       {
+//         feed {
+//           links {
+//             id
+//           }
+//         }
+//       }
+//     `,
+//   })
+//   .then((response) => console.log(response.data.feed))
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
