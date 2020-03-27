@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import './index.css'
 import App from './components/App'
+import { AUTH_TOKEN } from './constants'
 
 // Configure the apollo client with the endpoint of our GraphQL server
 // apollo-boost provides defaults client configuration out of the box
@@ -14,7 +15,7 @@ const client = new ApolloClient({
   uri: 'http://localhost:4000',
   // Set token as header on each request
   request: (operation) => {
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem(AUTH_TOKEN)
     operation.setContext({
       headers: {
         authorization: token ? `Bearer ${token}` : '',

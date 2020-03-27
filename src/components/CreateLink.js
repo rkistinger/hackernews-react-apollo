@@ -2,6 +2,8 @@ import React from 'react'
 import gql from 'graphql-tag'
 import { useMutation } from '@apollo/react-hooks'
 
+import { FEED_QUERY } from './LinkList'
+
 const POST_MUTATION = gql`
   mutation PostMutation($description: String!, $url: String!) {
     post(description: $description, url: $url) {
@@ -20,6 +22,19 @@ export default function CreateLink(props) {
     variables: {
       description,
       url,
+    },
+    // Use update option to update the cache after a mutation has completed.
+    // This is especially useful after creating new data (existing data in the cache is updated automatically)
+    update: (store, mutationResult) => {
+      // get current cached data
+      const data = store.readQuery({ query: FEED_QUERY })
+      // mutate data
+      data.feed.links.unshift(mutationResult.data.post)
+      // write back to the cache
+      store.writeQuery({
+        query: FEED_QUERY,
+        data,
+      })
     },
   })
 
